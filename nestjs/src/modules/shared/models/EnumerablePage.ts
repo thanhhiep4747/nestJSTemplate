@@ -1,4 +1,5 @@
-export class EnumerablePage<T>{
-    PageData: T[];
-    TotalCount: number;
+/* eslint-disable prettier/prettier */
+export class EnumerablePage<T> {
+  PageData: T[];
+  TotalCount: number;
 }

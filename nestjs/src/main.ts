@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {
@@ -10,9 +11,8 @@ async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
-    { cors: true }
+    { cors: true },
   );
-
 
   const config = new DocumentBuilder()
     .setTitle(process.env.APP_Name)
@@ -20,8 +20,7 @@ async function bootstrap() {
     .setVersion(process.env.APP_VERSION)
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-
+  SwaggerModule.setup('swagger', app, document);
 
   await app.listen(process.env.PORT);
 }

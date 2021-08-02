@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -11,13 +12,10 @@ import { SampleModule } from './modules/sample/sample.module';
     ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       envFilePath: ['.env'],
-    }),  
-    SampleModule
+    }),
+    SampleModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    JobsService
-  ],
+  providers: [AppService, JobsService],
 })
 export class AppModule {}

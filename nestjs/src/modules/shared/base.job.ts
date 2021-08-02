@@ -1,13 +1,12 @@
-import { SchedulerRegistry } from "@nestjs/schedule";
-import { CronJob } from "cron";
+/* eslint-disable prettier/prettier */
+import { SchedulerRegistry } from '@nestjs/schedule';
+import { CronJob } from 'cron';
 
 export class BaseJob {
-    constructor(
-        protected schedulerRegistry: SchedulerRegistry
-    ) { 
-        const job = new CronJob('', this.doWork.bind(this));
-        schedulerRegistry.addCronJob(this.constructor.name, job);
-    }
+  constructor(protected schedulerRegistry: SchedulerRegistry) {
+    const job = new CronJob('', this.doWork.bind(this));
+    schedulerRegistry.addCronJob(this.constructor.name, job);
+  }
 
-    protected doWork?();
+  protected doWork?();
 }
