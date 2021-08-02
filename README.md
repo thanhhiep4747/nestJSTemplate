@@ -1,1 +1,1 @@
-# nestJSTemplate
+# project-templates

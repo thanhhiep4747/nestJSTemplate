@@ -1,0 +1,12 @@
+{
+    "dev": {
+      "host": { "ENV" : "DATABASE_SERVER" },
+      "user": { "ENV" : "DATABASE_USER" },
+      "password" : { "ENV" : "DATABASE_PASSWORD" },
+      "database": { "ENV" : "DATABASE_DATABASE" },
+      "driver": "mssql",
+      "multipleStatements": true
+    },
+    "sql-file" : true
+  }
+  

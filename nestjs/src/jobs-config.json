@@ -1,0 +1,9 @@
+{
+    "jobs": [
+        {
+            "enable": false,
+            "name": "SampleJob",
+            "cronTime": "*/5 * * * * *"
+        }        
+    ]
+}
