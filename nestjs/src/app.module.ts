@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { JobsService } from './jobs.service';
 import { SampleModule } from './modules/sample/sample.module';
+import { ProductsModule } from './modules/products/products.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { SampleModule } from './modules/sample/sample.module';
       envFilePath: ['.env'],
     }),
     SampleModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService, JobsService],
