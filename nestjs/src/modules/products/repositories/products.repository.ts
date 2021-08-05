@@ -17,17 +17,18 @@ export class ProductsRepository extends BaseRepository {
     inStock: number,
     images: string,
   ): Promise<any> {
-    return this.queryAsync(`
-        DECLARE	@return_value int
+    const query = `
+    DECLARE	@return_value int
 
-        EXEC	@return_value = [dbo].[InsertProduct]
-                @Name = N'${name}',
-                @Price = ${price},
-                @InStock = ${inStock},
-                @Images = N'${images}'
+    EXEC	@return_value = [dbo].[InsertProduct]
+            @Name = N'${name}',
+            @Price = ${price},
+            @InStock = ${inStock},
+            @Images = N'${images}'
 
-        SELECT	'Return Value' = @return_value
-        `);
+    SELECT	'Return Value' = @return_value
+    `;
+    return this.queryAsync(query);
   }
 
   updateProduct(
@@ -50,7 +51,7 @@ export class ProductsRepository extends BaseRepository {
       `);
   }
 
-  getProductSize(id: number): Promise<any> {
+  getProductSizes(id: number): Promise<any> {
     return this.queryAsync(`
         SELECT size FROM dbo.products_sizes WHERE product=${id} order by size desc;
       `);

@@ -1,5 +1,14 @@
 import { ProductsService } from './../services/products.service';
-import { Controller, Get, NotFoundException, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Body,
+  Res,
+  HttpStatus,
+} from '@nestjs/common';
+import { Response } from 'express';
 
 @Controller('api/products')
 export class ProductsController {
@@ -7,24 +16,33 @@ export class ProductsController {
 
   @Get()
   async getProducts() {
-    let result
-    await this.productsService.getProducts().then((value) => {
-      result = value.recordset;
-    });
-    return result
+    return this.productsService.getProducts();
   }
 
   @Get(':id')
   async getProduct(@Param('id') productId: string) {
-      if (!productId){
-          throw new NotFoundException
-      }
-      let result 
-      await this.productsService.getProduct(Number(productId)).then(value => {
-          result = value.recordset
-      })
-      if (result.length === 0)
-        throw new NotFoundException
-      return result
+    return this.productsService.getProduct(Number(productId));
+  }
+
+  @Post()
+  async insertProduct(
+    @Body('name') name: string,
+    @Body('price') price: string,
+    @Body('in_stock') inStock: string,
+    @Body('images') images: string,
+    @Body('sizes') sizes: string[],
+    @Res() res: Response,
+  ) {
+    if (!name || !price || !inStock || !images || !sizes) {
+        return res.status(HttpStatus.BAD_REQUEST).send('Bad request');
+    }
+    const newProductId = await this.productsService.insertProduct(
+      name,
+      Number(price),
+      Number(inStock),
+      images,
+      sizes,
+    );
+    return res.status(HttpStatus.CREATED).send(newProductId)
   }
 }
