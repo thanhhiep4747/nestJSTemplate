@@ -65,13 +65,15 @@ export class ProductsRepository extends BaseRepository {
 
   insertProductSize(id: number, size: string): Promise<any> {
     return this.queryAsync(`
-        insert into dbo.products_sizes (product, size) values (${id}, '${size}')
+    insert into dbo.products_sizes (product, size)
+    Select ${id}, '${size}' Where not exists(select * from dbo.products_sizes where product=${id} and size='${size}')
       `);
   }
 
-  deleteProductSize(id: number, size: string): Promise<any> {
+  deleteProductSizes(id: number): Promise<any> {
     return this.queryAsync(`
-      delete from dbo.products_sizes where product = ${id} and size = '${size}'
+      delete from dbo.products_sizes where product = ${id};
       `);
   }
+
 }

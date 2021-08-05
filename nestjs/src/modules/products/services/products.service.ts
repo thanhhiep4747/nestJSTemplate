@@ -1,5 +1,5 @@
 import { ProductsRepository } from './../repositories/products.repository';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class ProductsService {
@@ -19,6 +19,7 @@ export class ProductsService {
     await this.productsRepository
       .getProduct(id)
       .then((value) => (product = value.recordset[0]));
+    if (!product) throw new NotFoundException();
     return { ...product, sizes: sizes };
   }
 
@@ -43,14 +44,35 @@ export class ProductsService {
       .then((value) => {
         newProductId = value.recordset[0];
         let id = newProductId['Return Value'];
-        sizes.map((s) => this.insertProductSize(id, s));
+        sizes.map((s) => this.productsRepository.insertProductSize(id, s));
       });
     return newProductId;
   }
 
-  async insertProductSize(id: number, size: string) {
-    return this.productsRepository.insertProductSize(id, size);
+  async deleteProduct(id: number) {
+    await this.productsRepository.deleteProductSizes(id);
+    return this.productsRepository.deleteProduct(id);
   }
 
-  
+  async updateProduct(
+    id: number,
+    name: string,
+    price: number,
+    inStock: number,
+    images: string,
+    sizes: string[],
+  ) {
+    await this.productsRepository.deleteProductSizes(id);
+    if (sizes) {
+      sizes.map((size) => this.productsRepository.insertProductSize(id, size));
+    }
+    return this.productsRepository.updateProduct(
+      id,
+      name,
+      price,
+      inStock,
+      images,
+    );
+  }
+
 }
