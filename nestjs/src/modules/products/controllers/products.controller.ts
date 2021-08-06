@@ -28,13 +28,18 @@ export class ProductsController {
     return this.productsService.getProduct(Number(productId));
   }
 
+  @Get('all-sizes')
+  getAllSizes(){
+    return this.productsService.getAllSizes()
+  }
+
   @Post()
   async insertProduct(
     @Body('name') name: string,
     @Body('price') price: string,
     @Body('in_stock') inStock: string,
     @Body('images') images: string,
-    @Body('sizes') sizes: string[],
+    @Body('sizes') sizes: any,
     @Res() res: Response,
   ) {
     if (!name || !price || !inStock || !images || !sizes) {
@@ -57,7 +62,7 @@ export class ProductsController {
     @Body('price') price: string,
     @Body('in_stock') inStock: string,
     @Body('images') images: string,
-    @Body('sizes') sizes: string[],
+    @Body('sizes') sizes: any,
     @Res() res: Response,
   ) {
     await this.productsService.updateProduct(
@@ -68,12 +73,12 @@ export class ProductsController {
       images,
       sizes,
     );
-    return res.status(HttpStatus.OK).send('Updated');
+    return res.status(HttpStatus.OK);
   }
 
+
   @Delete(':id')
-  deleteProduct(@Param('id') productId: string, @Res() res: Response) {
-    this.productsService.deleteProduct(Number(productId));
-    return res.status(HttpStatus.OK).send('Resource deleted successfully');
+  deleteProduct(@Param('id') productId: string): Promise<any> {
+    return this.productsService.deleteProduct(Number(productId));
   }
 }

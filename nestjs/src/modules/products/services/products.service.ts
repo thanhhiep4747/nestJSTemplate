@@ -36,7 +36,7 @@ export class ProductsService {
     price: number,
     inStock: number,
     images: string,
-    sizes: string[],
+    sizes: any,
   ): Promise<any> {
     let newProductId;
     await this.productsRepository
@@ -44,12 +44,12 @@ export class ProductsService {
       .then((value) => {
         newProductId = value.recordset[0];
         let id = newProductId['Return Value'];
-        sizes.map((s) => this.productsRepository.insertProductSize(id, s));
+        sizes.map((s: any) => this.productsRepository.insertProductSize(id, s.size));
       });
     return newProductId;
   }
 
-  async deleteProduct(id: number) {
+  async deleteProduct(id: number): Promise<any> {
     await this.productsRepository.deleteProductSizes(id);
     return this.productsRepository.deleteProduct(id);
   }
@@ -60,11 +60,11 @@ export class ProductsService {
     price: number,
     inStock: number,
     images: string,
-    sizes: string[],
+    sizes: any,
   ) {
     await this.productsRepository.deleteProductSizes(id);
     if (sizes) {
-      sizes.map((size) => this.productsRepository.insertProductSize(id, size));
+      sizes.map((size: any) => this.productsRepository.insertProductSize(id, size.size));
     }
     return this.productsRepository.updateProduct(
       id,
@@ -75,4 +75,11 @@ export class ProductsService {
     );
   }
 
+  async getAllSizes() {
+    let sizes;
+    await this.productsRepository
+      .getSizes()
+      .then((value) => (sizes = value.recordset));
+    return sizes;
+  }
 }

@@ -1,5 +1,5 @@
 import { BaseRepository } from 'src/modules/shared/base.repository';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Query } from '@nestjs/common';
 
 @Injectable()
 export class ProductsRepository extends BaseRepository {
@@ -38,17 +38,19 @@ export class ProductsRepository extends BaseRepository {
     inStock: number,
     images: string,
   ): Promise<any> {
-    return this.queryAsync(`
-        UPDATE dbo.products 
-        SET name = '${name}', price = ${price}, in_stock = ${inStock}, images = '${images}'
-        WHERE id = ${id};
-      `);
+    const query = `
+    UPDATE dbo.products 
+    SET name = '${name}', price = ${price}, in_stock = ${inStock}, images = '${images}'
+    WHERE id = ${id};
+    `;
+    return this.queryAsync(query);
   }
 
   deleteProduct(id: number): Promise<any> {
-    return this.queryAsync(`
+    const query = `
       DELETE FROM dbo.products WHERE id=${id};
-      `);
+      `;
+    return this.queryAsync(query);
   }
 
   getProductSizes(id: number): Promise<any> {
@@ -64,10 +66,11 @@ export class ProductsRepository extends BaseRepository {
   }
 
   insertProductSize(id: number, size: string): Promise<any> {
-    return this.queryAsync(`
-    insert into dbo.products_sizes (product, size)
-    Select ${id}, '${size}' Where not exists(select * from dbo.products_sizes where product=${id} and size='${size}')
-      `);
+    const query = `
+      insert into dbo.products_sizes (product, size)
+      Select ${id}, '${size}' Where not exists(select * from dbo.products_sizes where product=${id} and size='${size}');
+      `;
+    return this.queryAsync(query);
   }
 
   deleteProductSizes(id: number): Promise<any> {
@@ -75,5 +78,4 @@ export class ProductsRepository extends BaseRepository {
       delete from dbo.products_sizes where product = ${id};
       `);
   }
-
 }
