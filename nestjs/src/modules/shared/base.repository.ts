@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { rejects } from 'assert';
 import * as sql from 'mssql';
 import { IProcedureResult } from 'mssql';
 import { EnumerablePage } from './models/EnumerablePage';
@@ -12,11 +13,11 @@ export class BaseRepository {
     pool: {
       max: 10,
       min: 0,
-      idleTimeoutMillis: 30000,
+      idleTimeoutMillis: 100000,
     },
     options: {
       encrypt: false, // for azure
-      trustServerCertificate: false, // change to true for local dev / self-signed certs
+      trustServerCertificate: true, // change to true for local dev / self-signed certs
       enableArithAbort: true,
     },
   };
@@ -83,16 +84,21 @@ export class BaseRepository {
   ): Promise<IProcedureResult<any>> {
     const pool = new sql.ConnectionPool(this.databaseConfig);
     return new Promise((resolve, reject) => {
+
       pool.connect().then(() => {
         let sqlRequest = new sql.Request(pool);
         if (addRequestCallback) {
           sqlRequest = addRequestCallback(sqlRequest);
         }
+        
         sqlRequest.query(query).then((result) => {
+          // console.log(result);
           resolve(result);
-        });
-      });
+          
+        }).catch(reject)
+      }).catch(reject)
     });
+    
   }
 
   private executeProcedure(
