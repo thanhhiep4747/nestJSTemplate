@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { SampleController } from './controllers/sample.controller';
 import { SampleJob } from './jobs/sample.job';
