@@ -34,13 +34,19 @@ export class ProductController {
       }
     })
     .catch( () => {
-      res.send(result)
+      res.send('error');
     })
   }
 
   @Get()
-  async findAll(): Promise<Product[]> {
-    return this.productService.findAll();
+  findAll(@Res({passthrough: true}) res: Response): Product[] {
+    return this.productService.findAll()
+    .then((data)=>{
+     res.send(data.recordset) ;
+    })
+    .catch(()=>{
+      res.send('error');
+    })
   }
 
 
@@ -55,7 +61,13 @@ export class ProductController {
     }
 
     result.push(this.productService.updateProduct(data.id, data.price, data.title, data.image));
-    return Promise.all(result);
+    return Promise.all(result)
+    .then( () => {
+      res.send('success')
+    })
+    .catch( () => {
+      res.send('error')
+    })
     
   }
 
@@ -69,7 +81,13 @@ export class ProductController {
       result.push(this.productService.updateProductSize(data.id, size));
     }
 
-    return Promise.all(result);
+    return Promise.all(result)
+    .then( () => {
+      res.send('success')
+    })
+    .catch( () => {
+      res.send('error')
+    })
     
   }
 
@@ -81,7 +99,13 @@ export class ProductController {
 
     result.push(this.productService.removeProduct(id));
 
-    return Promise.all(result);
+    return Promise.all(result)
+    .then( () => {
+      res.send('success')
+    })
+    .catch( () => {
+      res.send('error')
+    })
     
   }
 
