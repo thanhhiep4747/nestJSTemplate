@@ -16,6 +16,10 @@ export class ProductController {
     @Get('/:id')
     async getProductById(@Param('id') id: number) {
         const products = await this.productService.getProductById(id);
+        const sizes = await this.productService.getProductSizes(id);
+        if (products.recordset.length > 0){
+            products.recordset[0].sizes = sizes.recordset;
+        }
         return products.recordset;
         
     }

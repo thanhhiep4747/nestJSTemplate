@@ -9,10 +9,16 @@ export class ProductRepository extends BaseRepository {
     return this.queryAsync('SELECT @@Version');
   }
   getAllProducts(): Promise<any> {
-      return this.queryAsync('SELECT * FROM Product');
+      return this.queryAsync(`select P.id, P.name, P.price, P.category, P.imageUrl, SUM(PS.quantity) as "quantity"
+      from Product P join Product_Size PS
+        on P.id = PS.productId
+      group by P.id, P.name, P.price, P.category, P.imageUrl;`);
   }
   getProductById(id: number): Promise<any> {
       return this.queryAsync(`SELECT * FROM Product WHERE Product.id = ${id}`);
+  }
+  getProductSizes(id: number): Promise<any> {
+    return this.queryAsync(`SELECT sizeId, quantity FROM Product_Size WHERE productId = ${id}`);
   }
   createProduct(productDto: CreateProductDto): Promise<any> {
       let query = `DECLARE @currentId int;

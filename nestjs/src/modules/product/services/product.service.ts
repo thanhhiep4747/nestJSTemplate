@@ -14,6 +14,10 @@ export class ProductService {
         return this.productRepository.getProductById(id);
     }
 
+    getProductSizes(id: number): Promise<any> {
+        return this.productRepository.getProductSizes(id);
+      }
+
     createProduct(productDto: CreateProductDto): Promise<any> {
         return this.productRepository.createProduct(productDto);
     }
