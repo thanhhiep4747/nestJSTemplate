@@ -17,20 +17,37 @@ export class ProductController {
     async getProductById(@Param('id') id: number) {
         const products = await this.productService.getProductById(id);
         return products.recordset;
+        
+    }
+
+    @Get('size-table')
+    async getSizeTable() {
+        const sizeTable = await this.productService.getSizeTable();
+        return sizeTable.recordset;
+    }
+
+    @Get('category-table')
+    async getCategoryTable() {
+        const categoryTable = await this.productService.getCategoryTable();
+        return categoryTable.recordset;
     }
 
     @Post()
-    createProduct(@Body() product: CreateProductDto){
-        
+    async createProduct(@Body() product: CreateProductDto){
+        console.log(product);
+        const res = await this.productService.createProduct(product);
+        return res.recordset;
     }
     
     @Put('/:id')
-    updateProductById(@Body() product: UpdateProductDto, @Param('id') id: number){
-        return "Product id " + id + " is updated";
+    async updateProductById(@Param('id') id: number, @Body() product: UpdateProductDto){
+        const res = await this.productService.updateProduct(id, product);
+        return res.recordset;
     }
 
     @Delete('/:id')
-    deleteProductById(@Param('id') id: number){
-        return "Product id " + id + " is deleted";
+    async deleteProductById(@Param('id') id: number){
+        const res = await this.productService.deleteProduct(id);
+        return res.recordset;
     }
 }

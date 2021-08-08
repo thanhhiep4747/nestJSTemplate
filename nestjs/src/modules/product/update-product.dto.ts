@@ -1,8 +1,9 @@
+import { SizeQuantityDto } from "./size-quantity.dto";
+
 export class UpdateProductDto {
     name: string;
-    quantity: number;
     price: number;
-    sizes: string[];
+    sizes: SizeQuantityDto[];
     category: string;
     imageUrl: string;
 }
