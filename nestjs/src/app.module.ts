@@ -1,3 +1,4 @@
+import { ProductsModule } from './modules/products/products.module';
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -6,6 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { JobsService } from './jobs.service';
 import { SampleModule } from './modules/sample/sample.module';
+import { SizesService } from './modules/products/service/sizes.service';
 
 @Module({
   imports: [
@@ -14,6 +16,7 @@ import { SampleModule } from './modules/sample/sample.module';
       envFilePath: ['.env'],
     }),
     SampleModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService, JobsService],
