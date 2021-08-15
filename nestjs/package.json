@@ -1,8 +1,6 @@
 {
   "name": "nestjs-app",
   "version": "0.0.1",
-  "description": "nestjs project template",
-  "author": "nguyenkhoi1610@gmail.com",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -18,24 +16,37 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "eslint": "eslint \"./src/*.ts\" \"./src/**/*.ts\" --fix",
+    "prettier": "prettier \"./src/*.ts\" \"./src/**/*.ts\" --write"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.15",
     "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.6.15",
+    "@nestjs/jwt": "^8.0.0",
+    "@nestjs/passport": "^8.0.1",
     "@nestjs/platform-express": "^7.6.15",
     "@nestjs/platform-fastify": "^7.6.18",
     "@nestjs/schedule": "^0.4.3",
     "@nestjs/swagger": "^4.8.2",
+    "bcrypt": "^5.0.1",
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.1",
+    "csurf": "^1.11.0",
     "db-migrate": "^0.11.12",
     "db-migrate-mssql": "^2.1.0",
     "fastify-swagger": "^4.8.2",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
     "mssql": "^7.1.3",
+    "nest-router": "^1.0.9",
+    "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "tedious": "^11.4.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.6.0",

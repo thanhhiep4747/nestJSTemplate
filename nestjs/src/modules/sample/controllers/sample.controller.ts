@@ -1,19 +1,24 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-console */
+
+import { Controller, Get } from '@nestjs/common';
 import { SampleService } from '../services/sample.service';
 
-@Controller('api/sample')
+@Controller('sample')
 export class SampleController {
-    constructor(
-        private sampleService: SampleService
-    ) { }
+    constructor(private sampleService: SampleService) {}
 
-    @Get("ping")
+    @Get('ping')
     ping(): string {
-        return "pong";
+        console.log(1);
+
+        return 'pong';
     }
 
-    @Get("getDatabaseVersion")
+    @Get('getDatabaseVersion')
     getDatabaseVersion(): Promise<any> {
-        return this.sampleService.getVersion();
+        return this.sampleService.getVersion().catch((response) => {
+            console.log(response);
+        });
     }
 }
